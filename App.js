@@ -5,8 +5,8 @@ import {
   Text, 
   View
 } from 'react-native';
-import Button from './src/componentes/Button'
-import Display from './src/componentes/Display'
+import Button from './src/componentes/Button';
+import Display from './src/componentes/Display';
 
 
 export default class App extends Component {
@@ -15,11 +15,30 @@ export default class App extends Component {
       displayValue: '0',
       displayResult: '',
       isResult: false,
+      isOperator: false,
+    }
+
+    calculate = () => {
+      let displayValue = this.state.displayValue;
+      let result;
+
+      try {
+        result = eval(displayValue);
+        if (!Number.isInteger(result)) {
+          result = result.toFixed(5);
+        }
+      } catch (e) {
+        result = '0'
+      }
+      this.setState({displayResult: result});
+      this.setState({isResult: true});
+
     }
 
     addDigit = n => {
       let displayValue = this.state.displayValue;
       let displayResult = this.state.displayResult;
+      let lastResult = displayResult;
 
       if (displayValue==='0' || this.state.isResult) {
         displayValue = '';
@@ -28,29 +47,45 @@ export default class App extends Component {
         this.setState({displayResult: displayResult});
       }
 
-      this.setState({displayValue: displayValue + n});
+      if (/\d/.test(n)) {
+        this.setState({isOperator: false})
+      } else {
+        this.setState({isOperator: true})
+      }
+      if ( /[\+\-\/\*]/.test(n) && displayValue==='') {
+        console.log("primeiro digito operador:: " + displayResult);
+        if (lastResult!='') {
+          displayValue = lastResult;
+        } else {
+          displayValue = '0';
+        }
+      }
+
+
+      // console.log(/\d/.test(n) + ' ' + n + ' - ' + this.state.isOperator)
+      // console.log(/[\+\-\/\*]/.test(n) + ' ' + n + ' - ' + displayValue)
+
+      if ( /[\+\-\/\*]/.test(n) && this.state.isOperator===true) {
+        console.log("faça nada");
+      } else {
+        this.setState({displayValue: displayValue + n});
+      }
+
     }
+
 
     removeDigit = () => {
       let displayValue = this.state.displayValue;
+      let lastChar = displayValue.substring(displayValue.length - 1);
+
+      if (!/\d/.lastChar) {
+        this.setState({isOperator: false});
+      }
+
       displayValue = displayValue.substring(0, displayValue.length - 1);
 
       if (!displayValue) displayValue = '0'; 
       this.setState({displayValue: displayValue});
-    }
-
-    calculate = () => {
-      let displayValue = this.state.displayValue;
-      let result;
-
-      try {
-        result = eval(displayValue)
-      } catch (e) {
-        result = '0'
-      }
-      this.setState({displayResult: result});
-      this.setState({isResult: true});
-
     }
 
     clearMemory = () => {

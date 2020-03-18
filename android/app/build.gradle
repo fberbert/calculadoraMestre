@@ -144,10 +144,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('fabio-key.keystore')
+            storePassword '907019'
+            keyAlias 'fabio-key'
+            keyPassword '907019'
         }
     }
     buildTypes {
@@ -179,7 +179,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

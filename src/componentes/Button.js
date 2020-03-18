@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
     StyleSheet,
     Text,
@@ -41,11 +41,23 @@ export default props => {
 
     // console.log(props.label);
 
+    const operatorSize = 30;
+    const equalSize = 30;
     let label = props.label;
     if (label==='=') {
-        label = <Icon name="md-play-circle" size={50} />;
+        label = <Icon name="equals" size={equalSize} />;
     } else if (label==='<') {
-        label = <Icon name="md-backspace" size={40} />;
+        label = <Icon name="backspace" size={operatorSize} />;
+    } else if (label==='-') {
+        label = <Icon name="minus" size={operatorSize} />;
+    } else if (label==='+') {
+        label = <Icon name="plus" size={operatorSize} />;
+    } else if (label==='*') {
+        label = <Icon name="asterisk" size={operatorSize} />;
+    } else if (label==='/') {
+        label = <Icon name="divide" size={operatorSize} />;
+    } else if (label==='C') {
+        label = <Icon name="xbox" size={operatorSize} />;
     }
 
     return (
